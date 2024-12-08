@@ -1,0 +1,35 @@
+import json
+
+def bubbleSort(array_):
+    array = array_[:]
+    lenData = len(array_)
+    indexesList = [int(i) for i in range(lenData)]
+    for i in range(lenData):
+        swapped = False
+        for j in range(0, lenData - i - 1):
+            if array[j] > array[j + 1]:
+                array[j], array[j + 1] = array[j + 1], array[j]
+                indexesList[j], indexesList[j + 1] = indexesList[j + 1], indexesList[j]
+                swapped = True
+        if not swapped:
+            break
+    return array, indexesList
+
+f = open('profiles.json', 'r', encoding='utf-8')
+
+data = json.load(f)
+
+lenData = len(data)
+namesList = [data[i]["Title"] for i in range(lenData)]
+
+profilesNumbersList = []
+for i in namesList:
+    profilesNumbersList.append(int(i.split()[1]))
+
+
+
+resArray, indexes = bubbleSort(profilesNumbersList)
+sortedProfiles = [data[i] for i in indexes]
+
+f = open('profiles.json', 'w', encoding='utf-8')
+json.dump(sortedProfiles, f, ensure_ascii=False)
